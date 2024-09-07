@@ -7,7 +7,7 @@ REDASH_BASE_PATH=/opt/redash
 DONT_START=no
 OVERWRITE=no
 PREVIEW=no
-PORT=5000
+PORT=5055
 
 # Ensure the script is being run as root
 ID=$(id -u)
@@ -46,7 +46,7 @@ do
       ;;
     -p|--preview)
       PREVIEW=yes
-      PORT=5001
+      PORT=5056
       shift
       ;;
     -h|--help)
@@ -259,7 +259,7 @@ setup_compose() {
   if [ "x$OVERWRITE" = "xyes" ]; then
     mv -f compose.yaml compose.yaml.old
   fi
-  curl -fsSOL https://raw.githubusercontent.com/getredash/setup/"$GIT_BRANCH"/data/compose.yaml
+  curl -fsSOL https://raw.githubusercontent.com/dvf-0/setup/"$GIT_BRANCH"/data/compose.yaml
   TAG="10.1.0.b50633"
   if [ "x$PREVIEW" = "xyes" ]; then
     TAG="preview"
@@ -274,7 +274,7 @@ setup_compose() {
 create_make_default() {
   echo "** Creating redash_make_default.sh script **"
 
-  curl -fsSOL https://raw.githubusercontent.com/getredash/setup/"$GIT_BRANCH"/redash_make_default.sh
+  curl -fsSOL https://raw.githubusercontent.com/dvf-0/setup/"$GIT_BRANCH"/redash_make_default.sh
   sed -i "s|__COMPOSE_FILE__|$COMPOSE_FILE|" redash_make_default.sh
   sed -i "s|__TARGET_FILE__|$PROFILE|" redash_make_default.sh
   chmod +x redash_make_default.sh
